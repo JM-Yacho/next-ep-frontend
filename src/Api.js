@@ -4,7 +4,7 @@ async function fetchNextEpisodes(profileName) {
     if(!profileName)
         return anime;
 
-    await fetch(`http://localhost:3001/watchListNextEps/${profileName}`, { method: 'Get' })
+    await fetch(`${process.env.REACT_APP_BACKEND_SERVER}/watchListNextEps/${profileName}`, { method: 'Get' })
         .then(res => {
             anime = res.json();
         })
