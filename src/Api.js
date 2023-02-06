@@ -1,4 +1,4 @@
-async function fetchNextEpisodes(profileName) {
+async function fetchWatchListNextEps(profileName) {
     let anime = []
 
     if(!profileName)
@@ -15,4 +15,4 @@ async function fetchNextEpisodes(profileName) {
     return anime;
 }
 
-export { fetchNextEpisodes };
+export { fetchWatchListNextEps };

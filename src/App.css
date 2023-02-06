@@ -1,12 +1,15 @@
-.App {
-  text-align: center;
+body {
   background-color: rgb(97, 97, 97);
 }
 
-.Calendar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.App {
+  text-align: center;
+}
+
+.Calendar {  
+  margin: auto;
+  width: 50%;
+  height: 100%;
 }
 
 .CalendarTileEntry {
@@ -44,7 +47,9 @@
 .react-calendar button {
   margin: 0;
   border: 0;
-  outline: thin;
+  align-items: center;;
+  display: flex;
+  flex-direction: column;
 }
 .react-calendar button:enabled:hover {
   cursor: pointer;

@@ -1,17 +1,29 @@
 import React, {useState} from 'react';
 
 import EpCalendar from './EpCalendar';
-import { fetchNextEpisodes } from './Api';
+import { fetchWatchListNextEps } from './Api';
 import ProfileSelector from './ProfileSelector';
 
 import './App.css';
 
 function App() {
-  const [animes, setAnime] = useState([]);
+  const [nextEpsByDate, setNextEpsByDate] = useState([]);
 
   const onProfileSelect = async (profileName) => {
-      let animes = await fetchNextEpisodes(profileName);
-      setAnime(animes);
+    let nextEpsByDate = {};
+    let watchListNextEps = await fetchWatchListNextEps(profileName);
+
+    watchListNextEps.forEach((anime, i) => {
+      let airingDate = (new Date(anime.nextEp.airingAt * 1000)).toISOString().split('T')[0];
+      if(airingDate in nextEpsByDate) {
+        nextEpsByDate[airingDate].push(anime);
+      }
+      else {
+        nextEpsByDate[airingDate] = [anime];
+      }
+    });
+
+    setNextEpsByDate(nextEpsByDate);
   }
 
   return (
@@ -20,7 +32,7 @@ function App() {
         <ProfileSelector onProfileSelect={onProfileSelect}/>
       </div>
       <div className='Calendar'>
-        <EpCalendar animes={animes}/>
+        <EpCalendar nextEpsByDate={nextEpsByDate}/>
       </div>
     </div>
   );

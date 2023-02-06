@@ -1,21 +1,8 @@
 import React, {useState} from 'react';
 import Calendar from 'react-calendar'
 
-// import 'react-calendar/dist/Calendar.css';
-
-const EpCalendar = ({animes}) => {
+const EpCalendar = ({nextEpsByDate}) => {
   const [value, onChange] = useState(new Date());
-
-  let nextEps = {};
-  animes.forEach((anime, i) => {
-    let airingDate = (new Date(anime.nextEp.airingAt * 1000)).toISOString().split('T')[0];
-    if(airingDate in nextEps) {
-      nextEps[airingDate].push(anime);
-    }
-    else {
-      nextEps[airingDate] = [anime];
-    }
-  });
 
   return (
     <div>
@@ -23,8 +10,8 @@ const EpCalendar = ({animes}) => {
         let animeEntries = [];
         let currDate = date.toISOString().split('T')[0];
 
-        if(currDate in nextEps) {
-          nextEps[currDate].forEach((anime, index) => {
+        if(currDate in nextEpsByDate) {
+          nextEpsByDate[currDate].forEach((anime, index) => {
             animeEntries.push(
               <div className='CalendarTileEntry' key={index}>
                 <img src={anime.pictureUrl} alt='animes' width='100%'/>
