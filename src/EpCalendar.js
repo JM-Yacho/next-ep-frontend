@@ -12,11 +12,14 @@ const EpCalendar = ({nextEpsByDate}) => {
 
         if(currDate in nextEpsByDate) {
           nextEpsByDate[currDate].forEach((anime, index) => {
+            let airDate = new Date(anime.nextEp.airingAt * 1000);
+            let time = airDate.toTimeString().split(' ')[0];
+            let zone = airDate.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
             animeEntries.push(
               <div className='CalendarTileEntry' key={index}>
                 <img src={anime.pictureUrl} alt='animes' width='100%'/>
                 <p>{anime.title} | Ep {anime.nextEp.episode}</p>
-                <p>{(new Date(anime.nextEp.airingAt * 1000)).toTimeString()}</p>
+                <p>{time} {zone}</p>
               </div>
             );
           });
