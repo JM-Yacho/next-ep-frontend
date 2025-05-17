@@ -17,9 +17,9 @@ interface CalendarTileProperties {
 
 const EpCalendar: React.FC<EpCalendarProps> = ({ userLocale, nextEpsByDate }) => {
   const [currDate, setCurrDate] = useState(new Date());
-  const shouldRenderTileContent = useMemo(() => Object.keys(nextEpsByDate).length > 0, [nextEpsByDate]);
+  const epsToRender = useMemo(() => Object.keys(nextEpsByDate).length > 0, [nextEpsByDate]);
   const tileContent = ({ date, view }: CalendarTileProperties)  => {
-    if (!shouldRenderTileContent) {
+    if (!epsToRender) {
       return null
     }
 
