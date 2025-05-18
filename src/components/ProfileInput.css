@@ -1,47 +1,30 @@
-/* Style for the input text field */
 .input-text {
-    padding: 8px 12px; /* Padding inside the input */
-    font-size: 16px;    /* Font size */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 10px;  /* Rounded corners */
-    margin-bottom: 10px;  /* Space below the input field */
-    width: 250px;   /* Set a width to the input field */
-  }
-  
-  .input-text:focus {
-    border-color: #76c7c0; /* Highlight border color when focused */
-    outline: none;  /* Remove outline */
-  }
-  
-  /* Styling for the submit button */
-  .submit-button {
-    background-color: #4CAF50;  /* Green background */
-    color: white;               /* White text */
-    font-size: 16px;            /* Font size */
-    padding: 10px 20px;         /* Padding */
-    border: none;               /* No border */
-    border-radius: 30px;        /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
-    cursor: pointer;           /* Cursor pointer for click */
-    transition: all 0.3s ease; /* Smooth transition for hover effect */
-    margin-bottom: 20px;        /* Space between button and calendar */
-    width: 250px;               /* Set width of button to match input */
-  }
-  
-  .submit-button:hover {
-    background-color: #45a049;  /* Darker green on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  /* Enhanced shadow */
-  }
-  
-  .submit-button:focus {
-    outline: none;              /* Remove outline when focused */
-    border: 2px solid #76c7c0;  /* Optional: Border on focus */
-  }
-  
-  /* Calendar styling adjustments (optional) */
-  .react-calendar {
-    width: 100%;               /* Calendar width */
-    max-width: 500px;          /* Max width for calendar */
-    margin-top: 20px;          /* Space between button and calendar */
-  }
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border: 2px solid #808080;
+  background-color: #ffffff;
+  color: #000000;
+  outline: none;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000;
+}
+
+.submit-button {
+  padding: 4px 12px;
+  font-size: 14px;
+  background-color: #c0c0c0;
+  color: black;
+  border: 2px solid #808080;
+  box-shadow: 1px 1px 0 #fff, -1px -1px 0 #000;
+  cursor: pointer;
+}
+
+.submit-button:active {
+  transform: translateY(-1px);
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+  color: white;
+}

@@ -33,7 +33,7 @@ function App() {
 
     watchListNextEps.forEach((ep) => {
       let airingDate = new Date(ep.airing_at * 1000).toLocaleDateString(userLocale);
-      if(airingDate in nextEpsByDate) {
+      if(airingDate in nextEps) {
         nextEps[airingDate].push(ep);
       }
       else {

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import './ProfileInput.css'
 
-const storedVarName = 'profileName';
+const profileNameStorageKey = 'profileName';
+const submitTimeStorageKey = 'submitTime';
+const oneMinute = 60000;
 
 interface ProfileInputProps {
   onProfileSubmit: (name: string) => void;
@@ -11,9 +13,9 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
   const [profileName, setProfileName] = useState('');
 
   useEffect(() => {
-    const storedProfileName = localStorage.getItem(storedVarName);
+    const storedProfileName = localStorage.getItem(profileNameStorageKey);
     if (storedProfileName) setProfileName(storedProfileName);
-  }, []);    
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfileName(e.target.value);
@@ -21,22 +23,38 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    localStorage.setItem(storedVarName, profileName);
+    // if profile name is empty, ignore
+    if(!profileName) return
+
+    let currTime = (new Date()).getTime();
+
+    if(profileName === localStorage.getItem(profileNameStorageKey)) {
+      let storedSubmitTime = localStorage.getItem(submitTimeStorageKey)
+      if(storedSubmitTime && (currTime - Number(storedSubmitTime)) < oneMinute) {     
+        alert(`Please wait 1 minute to resubmit ${profileName}`)
+        return
+      }
+    }
+    
+    localStorage.setItem(profileNameStorageKey, profileName);
+    localStorage.setItem(submitTimeStorageKey, currTime.toString());
     onProfileSubmit(profileName);
   };
 
   return (
     <div>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="profileName">Enter MAL Profile Name:</label>
+            <label htmlFor="profileName">Enter MAL Profile Name</label>
+            <br/>
             <input
                 id="profileName"
                 type="text"
                 value={profileName}
                 onChange={handleChange}
                 placeholder="Profile name"
+                className='input-text'
             />
-            <button type="submit">Submit</button>
+            <button type="submit" className='submit-button'>Submit</button>
         </form>      
     </div>
   );

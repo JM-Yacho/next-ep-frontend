@@ -1,12 +1,14 @@
-const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL || new Error('BACKEND_URL is required for the application to run!');
-const API_KEY = import.meta.env.VITE_API_KEY || new Error('API_KEY is required for the application to run!');
+const { VITE_BACKEND_BASE_URL, VITE_API_KEY } = import.meta.env;
+if (!VITE_BACKEND_BASE_URL || !VITE_API_KEY) {
+  throw new Error('Missing required environment variables!');
+}
   
 // Fetch data and return either the data or an empty array
 export async function fetchWatchListNextEps(profileName: string) {
     try {
-        const res = await fetch(`${BACKEND_BASE_URL}/watchListNextEps/${profileName}`, {
+        const res = await fetch(`${VITE_BACKEND_BASE_URL}/watchListNextEps/${profileName}`, {
             headers: {
-                    'x-api-key': API_KEY
+                    'x-api-key': VITE_API_KEY
             }
         });
 
