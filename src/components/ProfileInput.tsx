@@ -3,7 +3,7 @@ import './ProfileInput.css'
 
 const profileNameStorageKey = 'profileName';
 const submitTimeStorageKey = 'submitTime';
-const oneMinute = 60000;
+const tenSeconds = 10000;
 
 interface ProfileInputProps {
   onProfileSubmit: (name: string) => void;
@@ -30,8 +30,8 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
 
     if(profileName === localStorage.getItem(profileNameStorageKey)) {
       let storedSubmitTime = localStorage.getItem(submitTimeStorageKey)
-      if(storedSubmitTime && (currTime - Number(storedSubmitTime)) < oneMinute) {     
-        alert(`Please wait 1 minute to resubmit ${profileName}`)
+      if(storedSubmitTime && (currTime - Number(storedSubmitTime)) < tenSeconds) {     
+        alert(`Please wait 10 seconds to resubmit ${profileName}`)
         return
       }
     }

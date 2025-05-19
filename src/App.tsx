@@ -16,7 +16,7 @@ function App() {
       alert('Currently pulling eps...please wait');
       return;
     }
-    setProcessing(true)
+    setProcessing(true);
     const watchListNextEps = await fetchWatchListNextEps(profileName);
     if (watchListNextEps) {
       organizeEps(watchListNextEps);
