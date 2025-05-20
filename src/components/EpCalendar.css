@@ -7,17 +7,6 @@ body {
   text-align: center;
 }
 
-.Calendar {
-  /* display: inline-block; */
-}
-
-.CalendarTileEntry {
-  padding: 0.3em;
-  width: '70%';
-  height: '70%';
-  object-fit: 'contain';
-}
-
 .react-calendar {
   width: 700px;
   max-width: 100%;

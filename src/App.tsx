@@ -8,31 +8,37 @@ import './App.css';
 
 function App() {
   const [nextEpsByDate, setNextEpsByDate] = useState<{[key: string]: NextEp[]}>({});
-  const userLocale = useMemo(() => navigator.language || 'en-US', []);
-  const [processing, setProcessing] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const userLocale = navigator.language || 'en-US';
 
   const handleProfileSubmit = async (profileName: string) => {
-    if(processing) {
+    if(isProcessing) {
       alert('Currently pulling eps...please wait');
       return;
     }
-    setProcessing(true);
+    setIsProcessing(true);
     const watchListNextEps = await fetchWatchListNextEps(profileName);
     if (watchListNextEps) {
-      organizeEps(watchListNextEps);
+      if (watchListNextEps.length === 0) {
+        alert("No new episodes found for this profile");
+        setNextEpsByDate({});
+      }
+      else {
+        organizeEps(watchListNextEps);
+      }
     }
     else  {
-      alert("No episodes retrieved");
+      alert("Error: no episodes retrieved");
       setNextEpsByDate({});
     }
-    setProcessing(false);
+    setIsProcessing(false);
   };
 
   const organizeEps = (watchListNextEps: NextEp[]) => {
-    let nextEps: {[key: string]: NextEp[]} = {};
+    const nextEps: {[key: string]: NextEp[]} = {};
 
     watchListNextEps.forEach((ep) => {
-      let airingDate = new Date(ep.airing_at * 1000).toLocaleDateString(userLocale);
+      const airingDate = new Date(ep.airing_at * 1000).toLocaleDateString('en-US');
       if(airingDate in nextEps) {
         nextEps[airingDate].push(ep);
       }
@@ -47,7 +53,7 @@ function App() {
   return (
     <div className="App" style={{ display: "grid", placeItems: "center" }}>
       <div>
-        <ProfileInput onProfileSubmit={handleProfileSubmit}/>
+        <ProfileInput isProcessing={isProcessing} onProfileSubmit={handleProfileSubmit}/>
       </div>
       <div>
         <EpCalendar userLocale={userLocale} nextEpsByDate={nextEpsByDate}/>

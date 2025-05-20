@@ -6,10 +6,11 @@ const submitTimeStorageKey = 'submitTime';
 const tenSeconds = 10000;
 
 interface ProfileInputProps {
+  isProcessing: boolean;
   onProfileSubmit: (name: string) => void;
 };
 
-const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
+const ProfileInput: React.FC<ProfileInputProps> = ({ isProcessing, onProfileSubmit }) => {
   const [profileName, setProfileName] = useState('');
 
   useEffect(() => {
@@ -24,12 +25,12 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // if profile name is empty, ignore
-    if(!profileName) return
+    if(!profileName.trim()) return
 
-    let currTime = (new Date()).getTime();
+    const currTime = (new Date()).getTime();
 
     if(profileName === localStorage.getItem(profileNameStorageKey)) {
-      let storedSubmitTime = localStorage.getItem(submitTimeStorageKey)
+      const storedSubmitTime = localStorage.getItem(submitTimeStorageKey)
       if(storedSubmitTime && (currTime - Number(storedSubmitTime)) < tenSeconds) {     
         alert(`Please wait 10 seconds to resubmit ${profileName}`)
         return
@@ -54,7 +55,13 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ onProfileSubmit }) => {
                 placeholder="Profile name"
                 className='input-text'
             />
-            <button type="submit" className='submit-button'>Submit</button>
+            <button 
+              type="submit" 
+              className='submit-button'
+              disabled={isProcessing}
+            >
+              {isProcessing ? "Submitting..." : "Submit"}
+            </button>
         </form>      
     </div>
   );

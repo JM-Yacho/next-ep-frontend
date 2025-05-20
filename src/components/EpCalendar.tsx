@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 // import 'react-calendar/dist/Calendar.css';
 import Calendar from 'react-calendar';
 
@@ -17,42 +17,60 @@ interface CalendarTileProperties {
 
 const EpCalendar: React.FC<EpCalendarProps> = ({ userLocale, nextEpsByDate }) => {
   const [currDate, setCurrDate] = useState(new Date());
-  const epsToRender = useMemo(() => Object.keys(nextEpsByDate).length > 0, [nextEpsByDate]);
-  const tileContent = ({ date, view }: CalendarTileProperties)  => {
+  const epsToRender = Object.keys(nextEpsByDate).length > 0;
+  const tileContent = useCallback(({ date, view }: CalendarTileProperties) => {
     if (!epsToRender) {
       return null
     }
 
-    let epEntries: React.ReactNode[] = [];
-    let dayOfMonth = date.toLocaleDateString(userLocale);
+    const epEntries: React.ReactNode[] = [];
+    const dayOfMonth = date.toLocaleDateString('en-US');
 
     if(dayOfMonth in nextEpsByDate) {
-      nextEpsByDate[dayOfMonth].forEach((ep, index) => {
-        let airingTimeAndZone = new Date(ep.airing_at * 1000).toLocaleTimeString(userLocale, {
+      nextEpsByDate[dayOfMonth].forEach((ep) => {
+        const airingTimeAndZone = new Date(ep.airing_at * 1000).toLocaleTimeString('en-US', {
           hour: '2-digit',
           minute: '2-digit',
           timeZoneName: 'short',
         });
-        let title = ep.title_english ? ep.title_english : ep.title_romaji;
+        const title = ep.title_english || ep.title_romaji;
+
+        const tileStyle: React.CSSProperties = {
+          padding: '0.3em',
+          width: '120%',
+          height: '120%',
+          objectFit: 'contain',
+          transition: 'transform .1s ease-in-out'
+        };        
+
         epEntries.push(
-          <div className='CalendarTileEntry' key={index}>
-            <img src={ep.image_url} alt='eps' width='100%'/>
+          <div
+            key={ep.mal_id}
+            style={tileStyle}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <img src={ep.image_url} alt={`image of ${title}`} width='100%'/>
             {title}
             <br />
             Ep {ep.num}
-            <p>{airingTimeAndZone}</p>
+            <br />
+            {airingTimeAndZone}
           </div>
         );
       })
     }
 
     return epEntries
-  }
+  }, [epsToRender, nextEpsByDate, userLocale]);
   
   return (
     <div>
       <Calendar
-        onClickDay={() => {}} 
         value={currDate}
         locale={userLocale}
         tileContent={tileContent}       
