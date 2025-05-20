@@ -45,22 +45,22 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ isProcessing, onProfileSubm
   return (
     <div>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="profileName">Enter MAL Profile Name</label>
+            <label htmlFor='profileName'>Enter MAL Profile Name</label>
             <br/>
             <input
-                id="profileName"
-                type="text"
+                id='profileName'
+                type='text'
                 value={profileName}
                 onChange={handleChange}
-                placeholder="Profile name"
+                placeholder='Profile name'
                 className='input-text'
             />
             <button 
-              type="submit" 
+              type='submit' 
               className='submit-button'
               disabled={isProcessing}
             >
-              {isProcessing ? "Submitting..." : "Submit"}
+              {isProcessing ? 'Submitting...' : 'Submit'}
             </button>
         </form>      
     </div>

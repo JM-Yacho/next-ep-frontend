@@ -20,7 +20,7 @@ function App() {
     const watchListNextEps = await fetchWatchListNextEps(profileName);
     if (watchListNextEps) {
       if (watchListNextEps.length === 0) {
-        alert("No new episodes found for this profile");
+        alert(`No new episodes found for profile: ${profileName}`);
         setNextEpsByDate({});
       }
       else {
@@ -28,7 +28,7 @@ function App() {
       }
     }
     else  {
-      alert("Error: no episodes retrieved");
+      alert('Error: no episodes retrieved');
       setNextEpsByDate({});
     }
     setIsProcessing(false);
@@ -51,7 +51,7 @@ function App() {
   }
 
   return (
-    <div className="App" style={{ display: "grid", placeItems: "center" }}>
+    <div className='App' style={{ display: 'grid', placeItems: 'center' }}>
       <div>
         <ProfileInput isProcessing={isProcessing} onProfileSubmit={handleProfileSubmit}/>
       </div>
