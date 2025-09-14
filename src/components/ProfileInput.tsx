@@ -15,7 +15,7 @@ const ProfileInput: React.FC<ProfileInputProps> = ({ isProcessing, onProfileSubm
 
   useEffect(() => {
     const storedProfileName = localStorage.getItem(profileNameStorageKey);
-    if (storedProfileName) setProfileName(storedProfileName);
+    if(storedProfileName) setProfileName(storedProfileName);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

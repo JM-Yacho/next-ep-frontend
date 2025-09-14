@@ -8,6 +8,7 @@
   color: #000000;
   outline: none;
   box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000;
+  text-align: center; 
 }
 
 .submit-button {

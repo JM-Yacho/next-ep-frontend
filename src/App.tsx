@@ -17,37 +17,36 @@ function App() {
       return;
     }
     setIsProcessing(true);
+    setNextEpsByDate({});
     const watchListNextEps = await fetchWatchListNextEps(profileName);
     if (watchListNextEps) {
       if (watchListNextEps.length === 0) {
         alert(`No new episodes found for profile: ${profileName}`);
-        setNextEpsByDate({});
       }
       else {
-        organizeEps(watchListNextEps);
+        setNextEpsByDate(sortNextEps(watchListNextEps));
       }
     }
     else  {
-      alert('Error: no episodes retrieved');
-      setNextEpsByDate({});
+      alert('Error: failed to fetch next episodes. Please check the profile name and try again.');
     }
     setIsProcessing(false);
   };
 
-  const organizeEps = (watchListNextEps: NextEp[]) => {
-    const nextEps: {[key: string]: NextEp[]} = {};
+  const sortNextEps = (rawNextEps: NextEp[]) => {
+    const sortedNextEps: {[key: string]: NextEp[]} = {};
 
-    watchListNextEps.forEach((ep) => {
-      const airingDate = new Date(ep.airing_at * 1000).toLocaleDateString('en-US');
-      if(airingDate in nextEps) {
-        nextEps[airingDate].push(ep);
+    rawNextEps.forEach((nextEp) => {
+      const airingDate = new Date(nextEp.airing_at * 1000).toLocaleDateString('en-US');
+      if(airingDate in sortedNextEps) {
+        sortedNextEps[airingDate].push(nextEp);
       }
       else {
-        nextEps[airingDate] = [ep];
+        sortedNextEps[airingDate] = [nextEp];
       }
     });
 
-    setNextEpsByDate(nextEps);
+    return sortedNextEps;
   }
 
   return (

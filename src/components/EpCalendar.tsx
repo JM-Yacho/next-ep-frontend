@@ -15,11 +15,19 @@ interface CalendarTileProperties {
   view: 'month' | 'year' | 'decade' | 'century';
 };
 
+const tileStyle: React.CSSProperties = {
+  padding: '0.3em',
+  width: '120%',
+  height: '120%',
+  objectFit: 'contain',
+  transition: 'transform .1s ease-in-out'
+};  
+
 const EpCalendar: React.FC<EpCalendarProps> = ({ userLocale, nextEpsByDate }) => {
   const [currDate, setCurrDate] = useState(new Date());
-  const epsToRender = Object.keys(nextEpsByDate).length > 0;
+
   const tileContent = useCallback(({ date, view }: CalendarTileProperties) => {
-    if (!epsToRender) {
+    if (Object.keys(nextEpsByDate).length === 0) {
       return null
     }
 
@@ -33,15 +41,7 @@ const EpCalendar: React.FC<EpCalendarProps> = ({ userLocale, nextEpsByDate }) =>
           minute: '2-digit',
           timeZoneName: 'short',
         });
-        const title = ep.title_english || ep.title_romaji;
-
-        const tileStyle: React.CSSProperties = {
-          padding: '0.3em',
-          width: '120%',
-          height: '120%',
-          objectFit: 'contain',
-          transition: 'transform .1s ease-in-out'
-        };        
+        const title = ep.title_english || ep.title_romaji;      
 
         epEntries.push(
           <div
@@ -66,7 +66,7 @@ const EpCalendar: React.FC<EpCalendarProps> = ({ userLocale, nextEpsByDate }) =>
     }
 
     return epEntries
-  }, [epsToRender, nextEpsByDate, userLocale]);
+  }, [nextEpsByDate, userLocale, tileStyle]);
   
   return (
     <div>
